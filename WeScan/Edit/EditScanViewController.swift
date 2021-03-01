@@ -14,33 +14,49 @@ final class EditScanViewController: UIViewController {
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
+        
         imageView.clipsToBounds = true
         imageView.isOpaque = true
         imageView.image = image
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         return imageView
     }()
     
     private lazy var quadView: QuadrilateralView = {
         let quadView = QuadrilateralView()
+        
         quadView.editable = true
         quadView.translatesAutoresizingMaskIntoConstraints = false
+        
         return quadView
     }()
     
-    private lazy var nextButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.edit.button.next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Next", comment: "A generic next button")
-        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(pushReviewController))
-        button.tintColor = navigationController?.navigationBar.tintColor
+    private lazy var nextButton: UIButton = {
+        let title = NSLocalizedString("wescan_edit_button_next", tableName: nil, bundle: Bundle(for: EditScanViewController.self), comment: "The forward footer button")
+        
+        let button = UIButton(type: .custom)
+        
+        button.backgroundColor = UIColor(red: 143/255, green: 212/255, blue: 246/255, alpha: 1)
+        button.setTitle(title, for: .normal)
+        button.addTarget(self, action: #selector(pushReviewController), for: .touchUpInside)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
         return button
     }()
     
     private lazy var cancelButton: UIBarButtonItem = {
-        let title = NSLocalizedString("wescan.scanning.cancel", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Cancel", comment: "A generic cancel button")
-        let button = UIBarButtonItem(title: title, style: .plain, target: self, action: #selector(cancelButtonTapped))
-        button.tintColor = navigationController?.navigationBar.tintColor
+        let title = NSLocalizedString("wescan_scan_button_cancel", tableName: nil, bundle: Bundle(for: EditScanViewController.self), comment: "The cancel button for the scan view")
+        
+        var button = UIBarButtonItem(title: "✕", style: .plain, target: self, action: #selector(cancelButtonTapped))
+        if #available(iOS 13.0, *) {
+            button = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(cancelButtonTapped))
+            button.tintColor = UIColor.white
+        }
+        
         return button
     }()
     
@@ -60,6 +76,7 @@ final class EditScanViewController: UIViewController {
     init(image: UIImage, quad: Quadrilateral?, rotateImage: Bool = true) {
         self.image = rotateImage ? image.applyingPortraitOrientation() : image
         self.quad = quad ?? EditScanViewController.defaultQuad(forImage: image)
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -70,25 +87,44 @@ final class EditScanViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        if #available(iOS 13.0, *) {
+            self.navigationItem.backBarButtonItem?.tintColor = UIColor.white
+        }
+        
         setupViews()
         setupConstraints()
-        title = NSLocalizedString("wescan.edit.title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), value: "Edit Scan", comment: "The title of the EditScanViewController")
-        navigationItem.rightBarButtonItem = nextButton
+
         if let firstVC = self.navigationController?.viewControllers.first, firstVC == self {
-            navigationItem.leftBarButtonItem = cancelButton
+            navigationItem.rightBarButtonItem = cancelButton
         } else {
-            navigationItem.leftBarButtonItem = nil
+            navigationItem.rightBarButtonItem = nil
         }
+        
+        title = NSLocalizedString("wescan_edit_title", tableName: nil, bundle: Bundle(for: EditScanViewController.self), comment: "The navigation bar title for the edit view")
+        
+        let titleLabel = UILabel()
+        titleLabel.backgroundColor = .clear
+        titleLabel.numberOfLines = 2
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        titleLabel.textAlignment = .center
+        titleLabel.text = title
+        if #available(iOS 13.0, *) {
+            titleLabel.textColor = UIColor.white
+        }
+        
+        self.navigationItem.titleView = titleLabel
         
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
         
         let touchDown = UILongPressGestureRecognizer(target: zoomGestureController, action: #selector(zoomGestureController.handle(pan:)))
         touchDown.minimumPressDuration = 0
-        view.addGestureRecognizer(touchDown)
+        quadView.addGestureRecognizer(touchDown)
     }
     
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         adjustQuadViewConstraints()
         displayQuad()
     }
@@ -101,18 +137,36 @@ final class EditScanViewController: UIViewController {
         navigationController?.navigationBar.tintAdjustmentMode = .automatic
     }
     
+    override func present(_ viewControllerToPresent: UIViewController,
+                            animated flag: Bool,
+                            completion: (() -> Void)? = nil) {
+        viewControllerToPresent.modalPresentationStyle = .fullScreen
+        super.present(viewControllerToPresent, animated: flag, completion: completion)
+      }
+    
     // MARK: - Setups
     
     private func setupViews() {
+        view.backgroundColor = UIColor(red: 143/255, green: 212/255, blue: 246/255, alpha: 1)
+        
         view.addSubview(imageView)
         view.addSubview(quadView)
+        view.addSubview(nextButton)
     }
     
     private func setupConstraints() {
+        let nextButtonConstraints = [
+            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            nextButton.heightAnchor.constraint(equalToConstant: 56),
+            nextButton.widthAnchor.constraint(equalTo: view.widthAnchor),
+        ]
+        
         let imageViewConstraints = [
             imageView.topAnchor.constraint(equalTo: view.topAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+            imageView.bottomAnchor.constraint(equalTo: nextButton.topAnchor),
             view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
         ]
         
@@ -120,13 +174,13 @@ final class EditScanViewController: UIViewController {
         quadViewHeightConstraint = quadView.heightAnchor.constraint(equalToConstant: 0.0)
         
         let quadViewConstraints = [
-            quadView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            quadView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            quadView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            quadView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
             quadViewWidthConstraint,
             quadViewHeightConstraint
         ]
         
-        NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints)
+        NSLayoutConstraint.activate(quadViewConstraints + imageViewConstraints + nextButtonConstraints)
     }
     
     // MARK: - Actions
@@ -145,6 +199,7 @@ final class EditScanViewController: UIViewController {
                 }
                 return
         }
+        
         let cgOrientation = CGImagePropertyOrientation(image.imageOrientation)
         let orientedImage = ciImage.oriented(forExifOrientation: Int32(cgOrientation.rawValue))
         let scaledQuad = quad.scale(quadView.bounds.size, image.size)
@@ -162,6 +217,7 @@ final class EditScanViewController: UIViewController {
         ])
         
         let croppedImage = UIImage.from(ciImage: filteredImage)
+        
         // Enhanced Image
         let enhancedImage = filteredImage.applyingAdaptiveThreshold()?.withFixedOrientation()
         let enhancedScan = enhancedImage.flatMap { ImageScannerScan(image: $0) }
@@ -169,6 +225,7 @@ final class EditScanViewController: UIViewController {
         let results = ImageScannerResults(detectedRectangle: scaledQuad, originalScan: ImageScannerScan(image: image), croppedScan: ImageScannerScan(image: croppedImage), enhancedScan: enhancedScan)
         
         let reviewViewController = ReviewViewController(results: results)
+        
         navigationController?.pushViewController(reviewViewController, animated: true)
     }
     
@@ -187,6 +244,7 @@ final class EditScanViewController: UIViewController {
     /// Since there is no way to know the size of that image before run time, we adjust the constraints to make sure that the quadView is on top of the displayed image.
     private func adjustQuadViewConstraints() {
         let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
+        
         quadViewWidthConstraint.constant = frame.size.width
         quadViewHeightConstraint.constant = frame.size.height
     }

@@ -23,6 +23,7 @@ final class ReviewViewController: UIViewController {
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         return imageView
     }()
     
@@ -40,10 +41,29 @@ final class ReviewViewController: UIViewController {
         return button
     }()
     
-    private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(finishScan))
-        button.tintColor = navigationController?.navigationBar.tintColor
+    private lazy var doneButton: UIButton = {        
+        let title = NSLocalizedString("wescan_review_button_done", tableName: nil, bundle: Bundle(for: EditScanViewController.self), comment: "The done footer button")
+        
+        let button = UIButton(type: .custom)
+        
+        button.backgroundColor = UIColor(red: 143/255, green: 212/255, blue: 246/255, alpha: 1)
+        button.setTitle(title, for: .normal)
+        button.addTarget(self, action: #selector(finishScan), for: .touchUpInside)
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
         return button
+    }()
+    
+    private lazy var toolbar: UIToolbar = {
+        let toolbar = UIToolbar()
+        
+        toolbar.backgroundColor = UIColor(red: 59/255, green: 59/255, blue: 59/255, alpha: 1)
+        toolbar.isTranslucent = false
+        toolbar.barTintColor = UIColor(red: 59/255, green: 59/255, blue: 59/255, alpha: 1)
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        
+        return toolbar
     }()
     
     private let results: ImageScannerResults
@@ -68,61 +88,62 @@ final class ReviewViewController: UIViewController {
         setupToolbar()
         setupConstraints()
         
-        title = NSLocalizedString("wescan.review.title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), value: "Review", comment: "The review title of the ReviewController")
-        navigationItem.rightBarButtonItem = doneButton
+        title = NSLocalizedString("wescan_review_title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), comment: "The navigation bar title for the review view")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // We only show the toolbar (with the enhance button) if the enhanced image is available.
-        if enhancedImageIsAvailable {
-            navigationController?.setToolbarHidden(false, animated: true)
-        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setToolbarHidden(true, animated: true)
     }
     
     // MARK: Setups
     
     private func setupViews() {
+        view.backgroundColor = UIColor(red: 143/255, green: 212/255, blue: 246/255, alpha: 1)
+        
         view.addSubview(imageView)
+        view.addSubview(toolbar)
+        view.addSubview(doneButton)
     }
     
     private func setupToolbar() {
         guard enhancedImageIsAvailable else { return }
         
-        navigationController?.toolbar.barStyle = .blackTranslucent
-        
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbarItems = [fixedSpace, enhanceButton, flexibleSpace, rotateButton, fixedSpace]
+        
+        toolbar.items = [fixedSpace, enhanceButton, flexibleSpace, rotateButton, fixedSpace]
     }
     
     private func setupConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        var imageViewConstraints: [NSLayoutConstraint] = []
-        if #available(iOS 11.0, *) {
-            imageViewConstraints = [
-                view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.topAnchor),
-                view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.trailingAnchor),
-                view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.bottomAnchor),
-                view.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: imageView.safeAreaLayoutGuide.leadingAnchor)
-            ]
-        } else {
-            imageViewConstraints = [
-                view.topAnchor.constraint(equalTo: imageView.topAnchor),
-                view.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
-                view.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
-                view.leadingAnchor.constraint(equalTo: imageView.leadingAnchor)
-            ]
-        }
+        let doneButtonConstraints = [
+            doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            doneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            doneButton.heightAnchor.constraint(equalToConstant: 56),
+            doneButton.widthAnchor.constraint(equalTo: view.widthAnchor),
+        ]
         
-        NSLayoutConstraint.activate(imageViewConstraints)
+        let toolbarConstraints = [
+            toolbar.bottomAnchor.constraint(equalTo: doneButton.topAnchor),
+            toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            toolbar.heightAnchor.constraint(equalToConstant: 44)
+        ]
+        
+        let imageViewConstraints = [
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: toolbar.topAnchor)
+        ]
+        
+        NSLayoutConstraint.activate(doneButtonConstraints + toolbarConstraints + imageViewConstraints)
     }
     
     // MARK: - Actions

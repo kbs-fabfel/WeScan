@@ -6,16 +6,23 @@
     Copyright © 2018 WeTransfer. All rights reserved.
 */
 
-/* The "Next" button on the right side of the navigation bar on the Edit screen. */
-"wescan.edit.button.next" = "Next";
+/* The forward footer button */
+"wescan_edit_button_next" = "Next";
 
-/* The title on the navigation bar of the Edit screen. */
-"wescan.edit.title" = "Edit Scan";
+/* The done footer button */
+"wescan_review_button_done" = "Done";
 
-/* The title on the navigation bar of the Review screen. */
-"wescan.review.title" = "Review";
+/* The navigation bar title for the edit view */
+"wescan_edit_title" = "Cut the image using the dots displayed in the edges";
 
-/* The button titles on the Scanning screen. */
-"wescan.scanning.cancel" = "Cancel";
-"wescan.scanning.auto" = "Auto";
-"wescan.scanning.manual" = "Manual";
+/* The navigation bar title for the review view */
+"wescan_review_title" = "Review";
+
+/* The cancel button for the scan view */
+"wescan_scan_button_cancel" = "Cancel";
+
+/* The auto button for the scan view */
+"wescan_scan_button_auto" = "Auto";
+
+/* The manual button for the scan view */
+"wescan_scan_button_manual" = "Manual";

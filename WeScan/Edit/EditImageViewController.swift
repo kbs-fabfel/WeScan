@@ -31,20 +31,24 @@ public final class EditImageViewController: UIViewController {
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
+        
         imageView.clipsToBounds = true
         imageView.isOpaque = true
         imageView.image = image
         imageView.backgroundColor = .black
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        
         return imageView
     }()
     
     private lazy var quadView: QuadrilateralView = {
         let quadView = QuadrilateralView()
+        
         quadView.editable = true
         quadView.strokeColor = strokeColor
         quadView.translatesAutoresizingMaskIntoConstraints = false
+        
         return quadView
     }()
 
@@ -56,6 +60,7 @@ public final class EditImageViewController: UIViewController {
         self.image = rotateImage ? image.applyingPortraitOrientation() : image
         self.quad = quad ?? EditImageViewController.defaultQuad(allOfImage: image)
         self.strokeColor = strokeColor
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -68,12 +73,14 @@ public final class EditImageViewController: UIViewController {
         
         setupViews()
         setupConstraints()
+        
         zoomGestureController = ZoomGestureController(image: image, quadView: quadView)
         addLongGesture(of: zoomGestureController)
     }
     
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         adjustQuadViewConstraints()
         displayQuad()
     }
@@ -153,6 +160,7 @@ public final class EditImageViewController: UIViewController {
         image = newImage
         imageView.image = image
         quad = newQuad
+        
         adjustQuadViewConstraints()
         displayQuad()
         
@@ -176,6 +184,7 @@ public final class EditImageViewController: UIViewController {
     /// Since there is no way to know the size of that image before run time, we adjust the constraints to make sure that the quadView is on top of the displayed image.
     private func adjustQuadViewConstraints() {
         let frame = AVMakeRect(aspectRatio: image.size, insideRect: imageView.bounds)
+        
         quadViewWidthConstraint.constant = frame.size.width
         quadViewHeightConstraint.constant = frame.size.height
     }
@@ -199,6 +208,7 @@ public final class EditImageViewController: UIViewController {
         let bottomRight = CGPoint(x: image.size.width - offset, y: image.size.height - offset)
         let bottomLeft = CGPoint(x: offset, y: image.size.height - offset)
         let quad = Quadrilateral(topLeft: topLeft, topRight: topRight, bottomRight: bottomRight, bottomLeft: bottomLeft)
+        
         return quad
     }
 }
