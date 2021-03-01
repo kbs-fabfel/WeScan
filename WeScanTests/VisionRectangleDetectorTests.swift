@@ -5,7 +5,6 @@
 //  Created by James Campbell on 8/8/18.
 //  Copyright © 2018 WeTransfer. All rights reserved.
 //
-
 import FBSnapshotTestCase
 import XCTest
 @testable import WeScan
@@ -66,7 +65,7 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
         quadView.backgroundColor = UIColor.red
         resultView.addSubview(quadView)
 
-        self.FBSnapshotVerifyView(resultView)
+        self.FBSnapshotVerifyView(resultView, overallTolerance: 0.05)
         expectation.fulfill()
       }
     }
@@ -90,7 +89,7 @@ final class VisionRectangleDetectorTests: FBSnapshotTestCase {
           quadView.backgroundColor = UIColor.red
           resultView.addSubview(quadView)
 
-          self.FBSnapshotVerifyView(resultView)
+          self.FBSnapshotVerifyView(resultView, perPixelTolerance: 6 / 256)
           expectation.fulfill()
         }
       }

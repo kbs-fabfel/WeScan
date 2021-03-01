@@ -163,23 +163,13 @@ public final class ScannerViewController: UIViewController {
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ]
         
-        if #available(iOS 11.0, *) {
-            cancelButtonConstraints = [
-                cancelButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24.0),
-                view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
-            ]
+        cancelButtonConstraints = [
+            cancelButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 24.0),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
+        ]
             
-            let shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
-            shutterButtonConstraints.append(shutterButtonBottomConstraint)
-        } else {
-            cancelButtonConstraints = [
-                cancelButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24.0),
-                view.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor, constant: (65.0 / 2) - 10.0)
-            ]
-            
-            let shutterButtonBottomConstraint = view.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
-            shutterButtonConstraints.append(shutterButtonBottomConstraint)
-        }
+        let shutterButtonBottomConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shutterButton.bottomAnchor, constant: 8.0)
+        shutterButtonConstraints.append(shutterButtonBottomConstraint)
         
         NSLayoutConstraint.activate(quadViewConstraints + cancelButtonConstraints + shutterButtonConstraints + activityIndicatorConstraints)
     }

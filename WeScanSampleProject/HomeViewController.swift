@@ -71,25 +71,14 @@ final class HomeViewController: UIViewController {
         
         NSLayoutConstraint.activate(logoLabelConstraints + logoImageViewConstraints)
         
-        if #available(iOS 11.0, *) {
-            let scanButtonConstraints = [
-                scanButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
-                scanButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -16),
-                scanButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-                scanButton.heightAnchor.constraint(equalToConstant: 55)
-            ]
+        let scanButtonConstraints = [
+            scanButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 16),
+            scanButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -16),
+            scanButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            scanButton.heightAnchor.constraint(equalToConstant: 55)
+        ]
             
-            NSLayoutConstraint.activate(scanButtonConstraints)
-        } else {
-            let scanButtonConstraints = [
-                scanButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-                scanButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-                scanButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16),
-                scanButton.heightAnchor.constraint(equalToConstant: 55)
-            ]
-            
-            NSLayoutConstraint.activate(scanButtonConstraints)
-        }
+        NSLayoutConstraint.activate(scanButtonConstraints)
     }
     
     // MARK: - Actions
