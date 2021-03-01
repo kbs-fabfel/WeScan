@@ -63,14 +63,35 @@ public final class ImageScannerController: UINavigationController {
     public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
         super.init(rootViewController: ScannerViewController())
         
+        self.modalPresentationStyle = .fullScreen
+        
+        let detailVC = UIViewController()
+        detailVC.modalPresentationStyle = .fullScreen
+        present(detailVC, animated: true)
+        
         self.imageScannerDelegate = delegate
         
         if #available(iOS 13.0, *) {
-            navigationBar.tintColor = .label
-        } else {
             navigationBar.tintColor = .black
+            
+            let navBarAppearance = UINavigationBarAppearance()
+            navBarAppearance.configureWithOpaqueBackground()
+            navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+            navBarAppearance.backgroundColor = UIColor(red: 59/255, green: 59/255, blue: 59/255, alpha: 1)
+            navigationBar.standardAppearance = navBarAppearance
+            navigationBar.scrollEdgeAppearance = navBarAppearance
+            navigationBar.isTranslucent = false
+            
+        } else {
+            
+            navigationBar.isTranslucent = false
+            
+            var navigationBarAppearace = UINavigationBar.appearance()
+            navigationBarAppearace.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black] // text in navBar
+            navigationBarAppearace.tintColor = UIColor.black // buttons and controls in navBar
         }
-        navigationBar.isTranslucent = false
+        
         self.view.addSubview(blackFlashView)
         setupConstraints()
         
@@ -101,15 +122,9 @@ public final class ImageScannerController: UINavigationController {
         let orientation = CGImagePropertyOrientation(image.imageOrientation)
         let orientedImage = ciImage.oriented(forExifOrientation: Int32(orientation.rawValue))
         
-        if #available(iOS 11.0, *) {
-            // Use the VisionRectangleDetector on iOS 11 to attempt to find a rectangle from the initial image.
-            VisionRectangleDetector.rectangle(forImage: ciImage, orientation: orientation) { (quad) in
-                let detectedQuad = quad?.toCartesian(withHeight: orientedImage.extent.height)
-                completion(detectedQuad)
-            }
-        } else {
-            // Use the CIRectangleDetector on iOS 10 to attempt to find a rectangle from the initial image.
-            let detectedQuad = CIRectangleDetector.rectangle(forImage: ciImage)?.toCartesian(withHeight: orientedImage.extent.height)
+        // Use the VisionRectangleDetector on iOS 11 to attempt to find a rectangle from the initial image.
+        VisionRectangleDetector.rectangle(forImage: ciImage, orientation: orientation) { (quad) in
+            let detectedQuad = quad?.toCartesian(withHeight: orientedImage.extent.height)
             completion(detectedQuad)
         }
     }

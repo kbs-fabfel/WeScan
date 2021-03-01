@@ -5,7 +5,6 @@
 //  Created by James Campbell on 8/8/18.
 //  Copyright © 2018 WeTransfer. All rights reserved.
 //
-
 import FBSnapshotTestCase
 import XCTest
 @testable import WeScan
@@ -52,7 +51,7 @@ final class CIRectangleDetectorTests: FBSnapshotTestCase {
         quadView.backgroundColor = UIColor.red
         resultView.addSubview(quadView)
         
-        FBSnapshotVerifyView(resultView)
+        FBSnapshotVerifyView(resultView, perPixelTolerance: 6 / 256)
     }
     
 }
