@@ -75,7 +75,11 @@ public final class ScannerViewController: UIViewController {
         
         setupViews()
         setupNavigationBar()
-        setupConstraints()
+        if #available(iOS 11.0, *) {
+            setupConstraints()
+        } else {
+            // Fallback on earlier versions
+        }
         
         captureSessionManager = CaptureSessionManager(videoPreviewLayer: videoPreviewLayer, delegate: self)
         
@@ -139,6 +143,7 @@ public final class ScannerViewController: UIViewController {
         }
     }
     
+    @available(iOS 11.0, *)
     private func setupConstraints() {
         var quadViewConstraints = [NSLayoutConstraint]()
         var cancelButtonConstraints = [NSLayoutConstraint]()

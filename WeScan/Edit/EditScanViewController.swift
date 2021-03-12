@@ -93,7 +93,11 @@ final class EditScanViewController: UIViewController {
         }
         
         setupViews()
-        setupConstraints()
+        if #available(iOS 11.0, *) {
+            setupConstraints()
+        } else {
+            // Fallback on earlier versions
+        }
 
         if let firstVC = self.navigationController?.viewControllers.first, firstVC == self {
             navigationItem.rightBarButtonItem = cancelButton
@@ -154,6 +158,7 @@ final class EditScanViewController: UIViewController {
         view.addSubview(nextButton)
     }
     
+    @available(iOS 11.0, *)
     private func setupConstraints() {
         let nextButtonConstraints = [
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),

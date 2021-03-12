@@ -10,6 +10,7 @@ import Vision
 import Foundation
 
 /// Class used to detect rectangles from an image.
+@available(iOS 11.0, *)
 enum VisionRectangleDetector {
 
     private static func completeImageRequest(for request: VNImageRequestHandler, width: CGFloat, height: CGFloat, completion: @escaping ((Quadrilateral?) -> Void)) {
