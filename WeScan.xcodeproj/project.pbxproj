@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34D0634226034B010024352F /* dummy.png in Resources */ = {isa = PBXBuildFile; fileRef = 34D0634126034B010024352F /* dummy.png */; };
+		34D0634526034B230024352F /* dummy.png in Resources */ = {isa = PBXBuildFile; fileRef = 34D0634126034B010024352F /* dummy.png */; };
 		34F57F4225E4DA8F00AE7DEA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B97B49CB216C6C6800B2235B /* Localizable.strings */; };
 		34F57FB725E50DEF00AE7DEA /* rotate.png in Resources */ = {isa = PBXBuildFile; fileRef = B9E49DBB21BFD3BA000E994D /* rotate.png */; };
 		34F57FBA25E50DF200AE7DEA /* rotate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B9E49DBC21BFD3BB000E994D /* rotate@2x.png */; };
@@ -223,6 +225,7 @@
 
 /* Begin PBXFileReference section */
 		274DF35922D363BC0095CE49 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
+		34D0634126034B010024352F /* dummy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dummy.png; sourceTree = "<group>"; };
 		362967772294C23700B9FC4A /* CGImagePropertyOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImagePropertyOrientation.swift; sourceTree = "<group>"; };
 		37DE11D92417FC8A0062E4E4 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		382D0B0223C348A800A81619 /* CameraScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraScannerViewController.swift; sourceTree = "<group>"; };
@@ -580,6 +583,7 @@
 		B94FBB9D2178647B001ED1B4 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				34D0634126034B010024352F /* dummy.png */,
 				B9E49DB421BFCE7A000E994D /* Rotate */,
 				B983380121A6CA4E00AAE307 /* Enhance */,
 				B9274D2D219AE10B00F9FCD1 /* Flash */,
@@ -834,6 +838,7 @@
 				A1D4BCC2202C4F3800FCDDEC /* Assets.xcassets in Resources */,
 				34F57FC325E50E2100AE7DEA /* enhance@2x.png in Resources */,
 				34F57FC625E50E2800AE7DEA /* enhance@3x.png in Resources */,
+				34D0634526034B230024352F /* dummy.png in Resources */,
 				A1D4BCC0202C4F3800FCDDEC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -852,6 +857,7 @@
 				B94FBBB32178653C001ED1B4 /* flashUnavailable@3x.png in Resources */,
 				B9E49DBE21BFD3BB000E994D /* rotate.png in Resources */,
 				B94FBBAE2178652B001ED1B4 /* flash@3x.png in Resources */,
+				34D0634226034B010024352F /* dummy.png in Resources */,
 				B940E38A21A77192003B3C0B /* enhance@3x.png in Resources */,
 				B940E38B21A77192003B3C0B /* enhance@2x.png in Resources */,
 				B94FBBB42178653C001ED1B4 /* flashUnavailable.png in Resources */,
@@ -1255,7 +1261,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 74N8K5J2N7;
+				DEVELOPMENT_TEAM = 4UXJVBDGPW;
 				INFOPLIST_FILE = WeScanTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

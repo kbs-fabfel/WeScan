@@ -60,7 +60,7 @@ public final class ImageScannerController: UINavigationController {
         return .portrait
     }
     
-    public required init(image: UIImage? = nil, delegate: ImageScannerControllerDelegate? = nil) {
+    public required init(image: Bool? = nil, delegate: ImageScannerControllerDelegate? = nil) {
         super.init(rootViewController: ScannerViewController())
         
         self.modalPresentationStyle = .fullScreen
@@ -96,13 +96,16 @@ public final class ImageScannerController: UINavigationController {
         setupConstraints()
         
         // If an image was passed in by the host app (e.g. picked from the photo library), use it instead of the document scanner.
-        if let image = image {
-            detect(image: image) { [weak self] detectedQuad in
-                guard let self = self else { return }
-                let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
-                self.setViewControllers([editViewController], animated: false)
-            }
+        if (image == true) {
+            self.selectImage()
         }
+    }
+    
+    func selectImage() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true)
     }
 
     override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -162,6 +165,7 @@ public final class ImageScannerController: UINavigationController {
             self.blackFlashView.isHidden = true
         }
     }
+    
 }
 
 /// Data structure containing information about a scan, including both the image and an optional PDF.
@@ -229,5 +233,23 @@ public struct ImageScannerResults {
         self.enhancedScan = enhancedScan
         
         self.doesUserPreferEnhancedScan = doesUserPreferEnhancedScan
+    }
+}
+
+extension ImageScannerController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+    
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        picker.dismiss(animated: true)
+        
+        guard let image = info[.originalImage] as? UIImage else { return }
+        
+        detect(image: image) { [weak self] detectedQuad in
+            guard let self = self else { return }
+            let editViewController = EditScanViewController(image: image, quad: detectedQuad, rotateImage: false)
+            self.setViewControllers([editViewController], animated: false)
+        }
     }
 }
