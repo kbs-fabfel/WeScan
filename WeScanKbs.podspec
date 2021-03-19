@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
   spec.social_media_url = 'https://twitter.com/WeTransfer'
 
   spec.swift_version = '5.0'
-  spec.ios.deployment_target = '11.0'
+  spec.ios.deployment_target = '10.0'
   spec.source_files = 'WeScan/**/*.{h,m,swift}'
   spec.resources = 'WeScan/**/*.{strings,png}'
 end
