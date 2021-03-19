@@ -1,6 +1,6 @@
 //
 //  ImageScannerController.swift
-//  WeScan
+//  WeScan Kbs - FabFel
 //
 //  Created by Boris Emorine on 2/12/18.
 //  Copyright © 2018 WeTransfer. All rights reserved.
