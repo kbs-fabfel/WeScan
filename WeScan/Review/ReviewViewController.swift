@@ -86,7 +86,11 @@ final class ReviewViewController: UIViewController {
         
         setupViews()
         setupToolbar()
-        setupConstraints()
+        if #available(iOS 11.0, *) {
+            setupConstraints()
+        } else {
+            // Fallback on earlier versions
+        }
         
         title = NSLocalizedString("wescan_review_title", tableName: nil, bundle: Bundle(for: ReviewViewController.self), comment: "The navigation bar title for the review view")
     }
@@ -118,6 +122,7 @@ final class ReviewViewController: UIViewController {
         toolbar.items = [fixedSpace, enhanceButton, flexibleSpace, rotateButton, fixedSpace]
     }
     
+    @available(iOS 11.0, *)
     private func setupConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         

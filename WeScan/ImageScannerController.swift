@@ -126,9 +126,13 @@ public final class ImageScannerController: UINavigationController {
         let orientedImage = ciImage.oriented(forExifOrientation: Int32(orientation.rawValue))
         
         // Use the VisionRectangleDetector on iOS 11 to attempt to find a rectangle from the initial image.
-        VisionRectangleDetector.rectangle(forImage: ciImage, orientation: orientation) { (quad) in
-            let detectedQuad = quad?.toCartesian(withHeight: orientedImage.extent.height)
-            completion(detectedQuad)
+        if #available(iOS 11.0, *) {
+            VisionRectangleDetector.rectangle(forImage: ciImage, orientation: orientation) { (quad) in
+                let detectedQuad = quad?.toCartesian(withHeight: orientedImage.extent.height)
+                completion(detectedQuad)
+            }
+        } else {
+            // Fallback on earlier versions
         }
     }
     

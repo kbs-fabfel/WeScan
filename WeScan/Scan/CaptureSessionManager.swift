@@ -268,6 +268,7 @@ extension CaptureSessionManager: AVCapturePhotoCaptureDelegate {
         
     }
     
+    @available(iOS 11.0, *)
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         if let error = error {
             delegate?.captureSessionManager(self, didFailWithError: error)

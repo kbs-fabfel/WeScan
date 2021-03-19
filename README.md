@@ -1,4 +1,4 @@
-# WeScan
+# WeScan - custom KBS
  
 <p align="center">
     <img width="900px" src="Assets/WeScan-Banner.jpg">
@@ -15,6 +15,8 @@
  
 **WeScan** makes it easy to add scanning functionalities to your iOS app! 
 It's modelled after `UIImagePickerController`, which makes it a breeze to use.
+
+Changes made by kbs-fabfel for KBS.
 
 - [Features](#features)
 - [Demo](#demo)
