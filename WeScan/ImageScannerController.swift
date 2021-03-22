@@ -87,7 +87,7 @@ public final class ImageScannerController: UINavigationController {
             
             navigationBar.isTranslucent = false
             
-            var navigationBarAppearace = UINavigationBar.appearance()
+            let navigationBarAppearace = UINavigationBar.appearance()
             navigationBarAppearace.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black] // text in navBar
             navigationBarAppearace.tintColor = UIColor.black // buttons and controls in navBar
         }
