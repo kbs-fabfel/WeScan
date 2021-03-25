@@ -72,7 +72,8 @@ public final class ImageScannerController: UINavigationController {
         self.imageScannerDelegate = delegate
         
         if #available(iOS 13.0, *) {
-            navigationBar.tintColor = .black
+            navigationBar.tintColor = .white
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             
             let navBarAppearance = UINavigationBarAppearance()
             navBarAppearance.configureWithOpaqueBackground()
