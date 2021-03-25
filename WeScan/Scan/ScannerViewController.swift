@@ -78,6 +78,11 @@ public final class ScannerViewController: UIViewController {
         view.backgroundColor = UIColor.black
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        if #available(iOS 13.0, *) {
+            self.navigationItem.backBarButtonItem?.tintColor = UIColor.white
+        }
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         setupViews()
         setupNavigationBar()
