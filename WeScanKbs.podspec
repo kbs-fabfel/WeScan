@@ -14,5 +14,5 @@ Pod::Spec.new do |spec|
   spec.swift_version = '5.0'
   spec.ios.deployment_target = '10.0'
   spec.source_files = 'WeScan/**/*.{h,m,swift}'
-  spec.ios.resource_bundle = { 'WeScanKbs' => 'WeScan/**/*.{lproj,png}' }
+  spec.resource_bundle = { 'WeScan' => ['WeScan/**/*.{strings,png}'] }
 end
