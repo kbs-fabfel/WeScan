@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name             = 'WeScanKbs'
-  spec.version          = '1.0.6'
+  spec.version          = '1.0.7'
   spec.summary          = 'Camera Lib - Document Scanning - iOS'
   spec.description      = 'WeScanKbs allows to take a photo and automatically scan data! It also allows using image gallery. Forked version of standard WeScan pod.'
 
