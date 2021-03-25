@@ -71,6 +71,11 @@ public final class EditImageViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        if #available(iOS 13.0, *) {
+            self.navigationItem.backBarButtonItem?.tintColor = UIColor.white
+        }
+        
         setupViews()
         setupConstraints()
         
