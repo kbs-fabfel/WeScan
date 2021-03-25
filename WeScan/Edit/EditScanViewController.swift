@@ -90,6 +90,8 @@ final class EditScanViewController: UIViewController {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         if #available(iOS 13.0, *) {
             self.navigationItem.backBarButtonItem?.tintColor = UIColor.white
+            UINavigationBar.appearance().tintColor = UIColor.white
+            self.navigationItem.backBarButtonItem?.title = ""
         }
         
         setupViews()

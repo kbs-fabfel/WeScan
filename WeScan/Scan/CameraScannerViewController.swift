@@ -45,6 +45,8 @@ public final class CameraScannerViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     override public func viewWillAppear(_ animated: Bool) {
